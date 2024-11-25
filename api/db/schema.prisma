@@ -33,6 +33,7 @@ model RW_DataMigration {
 
 model User {
   id                  Int       @id @default(autoincrement())
+  audits              Audit[]
   name                String?
   email               String    @unique
   loginToken          String
@@ -41,4 +42,15 @@ model User {
   salt                String?
   resetToken          String?
   resetTokenExpiresAt DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model Audit {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  log       String
 }

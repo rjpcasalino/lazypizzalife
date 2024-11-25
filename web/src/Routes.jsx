@@ -1,21 +1,38 @@
-import { Router, Route, Set } from '@redwoodjs/router'
+import { PrivateSet, Router, Route, Set } from '@redwoodjs/router'
 import ScaffoldLayout from 'src/layouts/ScaffoldLayout'
 import BlogLayout from 'src/layouts/BlogLayout'
 
+import { useAuth } from './auth'
+
 const Routes = () => {
   return (
-    <Router>
-      <Route path="/login-passwordless" page={LoginPasswordlessPage} name="loginPasswordless" />
-      <Route path="/login" page={LoginPasswordlessPage} name="login" />
-      <Route path="/signup" page={SignupPage} name="signup" />
-      <Route path="/forgot-password" page={ForgotPasswordPage} name="forgotPassword" />
-      <Route path="/reset-password" page={ResetPasswordPage} name="resetPassword" />
+    <Router useAuth={useAuth}>
+     <Set wrap={ScaffoldLayout} title="Users" titleTo="users" buttonLabel="New User" buttonTo="newUser">
+      <Route path="/users/new" page={UserNewUserPage} name="newUser" />
+      <Route path="/users/{id:Int}/edit" page={UserEditUserPage} name="editUser" />
+      <Route path="/users/{id:Int}" page={UserUserPage} name="user" />
+      <Route path="/users" page={UserUsersPage} name="users" />
+     </Set>
+     <PrivateSet unauthenticated="home">
+      <Set wrap={ScaffoldLayout} title="Audits" titleTo="audits" buttonLabel="New Audit" buttonTo="newAudit">
+        <Route path="/audits/new" page={AuditNewAuditPage} name="newAudit" />
+        <Route path="/audits/{id}/edit" page={AuditEditAuditPage} name="editAudit" />
+        <Route path="/audits/{id}" page={AuditAuditPage} name="audit" />
+        <Route path="/audits" page={AuditAuditsPage} name="audits" />
+      </Set>
       <Set wrap={ScaffoldLayout} title="Posts" titleTo="posts" buttonLabel="New Post" buttonTo="newPost">
         <Route path="/admin/posts/new" page={PostNewPostPage} name="newPost" />
         <Route path="/admin/posts/{id:Int}/edit" page={PostEditPostPage} name="editPost" />
         <Route path="/admin/posts/{id:Int}" page={PostPostPage} name="post" />
         <Route path="/admin/posts" page={PostPostsPage} name="posts" />
       </Set>
+      <Route path="/users" page={UserUsersPage} name="Users" />
+     </PrivateSet>
+      <Route path="/login-passwordless" page={LoginPasswordlessPage} name="loginPasswordless" />
+      <Route path="/login" page={LoginPasswordlessPage} name="login" />
+      <Route path="/signup" page={SignupPage} name="signup" />
+      <Route path="/forgot-password" page={ForgotPasswordPage} name="forgotPassword" />
+      <Route path="/reset-password" page={ResetPasswordPage} name="resetPassword" />
       <Set wrap={BlogLayout}>
         <Route path="/article/{id:Int}" page={ArticlePage} name="article" />
         <Route path="/contact" page={ContactPage} name="contact" />

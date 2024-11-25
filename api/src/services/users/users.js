@@ -31,6 +31,12 @@ export const deleteUser = ({ id }) => {
   })
 }
 
+export const User = {
+  audits: (_obj, { root }) => {
+    return db.user.findUnique({ where: { id: root?.id } }).audits()
+  },
+}
+
 // add this to the bottom of the file
 export const generateToken = async ({ email }) => {
   try {
@@ -68,3 +74,4 @@ export const generateToken = async ({ email }) => {
     throw new UserInputError(error.message)
   }
 }
+
