@@ -35,8 +35,10 @@ model User {
   id                  Int       @id @default(autoincrement())
   name                String?
   email               String    @unique
-  hashedPassword      String
-  salt                String
+  loginToken          String
+  loginTokenExpiresAt DateTime?
+  hashedPassword      String?
+  salt                String?
   resetToken          String?
   resetTokenExpiresAt DateTime?
 }

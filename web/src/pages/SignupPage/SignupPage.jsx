@@ -1,4 +1,5 @@
-import { useEffect, useRef } from 'react'
+import { useRef } from 'react'
+import { useEffect } from 'react'
 
 import {
   Form,
@@ -16,7 +17,16 @@ import { useAuth } from 'src/auth'
 
 const SignupPage = () => {
   const { isAuthenticated, signUp } = useAuth()
-
+  let randomString = (length = 32) => {
+    if(typeof length == undefined) length = 32;
+    const characterSet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const array = new Uint8Array(length);
+    window.crypto.getRandomValues(array);
+    const returnString = Array.from(array)
+      .map((value) => characterSet[value % characterSet.length])
+      .join('');
+    return returnString;
+  }
   useEffect(() => {
     if (isAuthenticated) {
       navigate(routes.home())
@@ -24,15 +34,15 @@ const SignupPage = () => {
   }, [isAuthenticated])
 
   // focus on username box on page load
-  const usernameRef = useRef(null)
+  const emailRef = useRef(null)
   useEffect(() => {
-    usernameRef.current?.focus()
+    emailRef.current?.focus()
   }, [])
 
   const onSubmit = async (data) => {
     const response = await signUp({
-      username: data.username,
-      password: data.password,
+      username: data.email,
+      password: randomString(), // this is a random string and is not important
     })
 
     if (response.message) {
@@ -61,48 +71,25 @@ const SignupPage = () => {
               <div className="rw-form-wrapper">
                 <Form onSubmit={onSubmit} className="rw-form-wrapper">
                   <Label
-                    name="username"
+                    name="email"
                     className="rw-label"
                     errorClassName="rw-label rw-label-error"
                   >
-                    Username
+                    Email
                   </Label>
                   <TextField
-                    name="username"
+                    name="email"
                     className="rw-input"
                     errorClassName="rw-input rw-input-error"
-                    ref={usernameRef}
+                    ref={emailRef}
                     validation={{
                       required: {
                         value: true,
-                        message: 'Username is required',
+                        message: 'Email is required',
                       },
                     }}
                   />
-
-                  <FieldError name="username" className="rw-field-error" />
-
-                  <Label
-                    name="password"
-                    className="rw-label"
-                    errorClassName="rw-label rw-label-error"
-                  >
-                    Password
-                  </Label>
-                  <PasswordField
-                    name="password"
-                    className="rw-input"
-                    errorClassName="rw-input rw-input-error"
-                    autoComplete="current-password"
-                    validation={{
-                      required: {
-                        value: true,
-                        message: 'Password is required',
-                      },
-                    }}
-                  />
-
-                  <FieldError name="password" className="rw-field-error" />
+                  <FieldError name="email" className="rw-field-error" />
 
                   <div className="rw-button-group">
                     <Submit className="rw-button rw-button-blue">

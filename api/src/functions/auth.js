@@ -56,16 +56,22 @@ export const handler = async (event, context) => {
     // by the `logIn()` function from `useAuth()` in the form of:
     // `{ message: 'Error message' }`
     handler: (user) => {
+      let loginExpiresAt = new Date(user?.loginTokenExpiresAt)
+      let now = new Date()
+      if (loginExpiresAt < now) {
+	throw 'Login token expired'
+      }
+      db.user.update({
+	where: { id: user.id },
+	data: {
+		loginTokenExpiresAt: null,
+        	salt: null,
+	},
+      })
       return user
     },
-
     errors: {
-      usernameOrPasswordMissing: 'Both username and password are required',
-      usernameNotFound: 'Username ${username} not found',
-      // For security reasons you may want to make this the same as the
-      // usernameNotFound error so that a malicious user can't use the error
-      // to narrow down if it's the username or password that's incorrect
-      incorrectPassword: 'Incorrect password for ${username}',
+      incorrectPassword: 'Incorrect token',
     },
 
     // How long a user will remain logged in, in seconds
@@ -112,20 +118,15 @@ export const handler = async (event, context) => {
     //
     // If this returns anything else, it will be returned by the
     // `signUp()` function in the form of: `{ message: 'String here' }`.
-    handler: ({
-      username,
-      hashedPassword,
-      salt,
-      userAttributes: _userAttributes,
-    }) => {
-      return db.user.create({
-        data: {
-          email: username,
-          hashedPassword: hashedPassword,
-          salt: salt,
-          // name: userAttributes.name
-        },
-      })
+    handler: ({ username, hashedPassword, userAttributes }) => {
+    return db.user.create({
+      data: {
+        email: username,
+        loginToken: hashedPassword,
+        salt: null,
+        name: userAttributes.name,
+      },
+     })
     },
 
     // Include any format checks for password here. Return `true` if the
@@ -137,7 +138,6 @@ export const handler = async (event, context) => {
 
     errors: {
       // `field` will be either "username" or "password"
-      fieldMissing: '${field} is required',
       usernameTaken: 'Username `${username}` already in use',
     },
   }
@@ -156,7 +156,7 @@ export const handler = async (event, context) => {
     authFields: {
       id: 'id',
       username: 'email',
-      hashedPassword: 'hashedPassword',
+      hashedPassword: 'loginToken',
       salt: 'salt',
       resetToken: 'resetToken',
       resetTokenExpiresAt: 'resetTokenExpiresAt',
