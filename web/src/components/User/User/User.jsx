@@ -1,9 +1,6 @@
-import { Link, routes, navigate } from '@redwoodjs/router'
 import { useMutation } from '@redwoodjs/web'
-
 import { toast } from '@redwoodjs/web/toast'
-
-import { timeTag } from 'src/lib/formatters'
+import { Link, routes, navigate } from '@redwoodjs/router'
 
 const DELETE_USER_MUTATION = gql`
   mutation DeleteUserMutation($id: Int!) {
@@ -12,6 +9,22 @@ const DELETE_USER_MUTATION = gql`
     }
   }
 `
+
+const EMAIL_USER_MUTATION = gql`
+  mutation EmailUserMutation($id: Int!) {
+    emailUser(id: $id) {
+      id
+    }
+  }
+`
+
+const timeTag = (datetime) => {
+  return (
+    <time dateTime={datetime} title={datetime}>
+      {new Date(datetime).toUTCString()}
+    </time>
+  )
+}
 
 const User = ({ user }) => {
   const [deleteUser] = useMutation(DELETE_USER_MUTATION, {
@@ -24,9 +37,24 @@ const User = ({ user }) => {
     },
   })
 
+  const [emailUser] = useMutation(EMAIL_USER_MUTATION, {
+    onCompleted: () => {
+      toast.success('Email sent')
+    },
+    onError: (error) => {
+      toast.error(error.message)
+    },
+  })
+
   const onDeleteClick = (id) => {
     if (confirm('Are you sure you want to delete user ' + id + '?')) {
       deleteUser({ variables: { id } })
+    }
+  }
+
+  const onEmailClick = (user) => {
+    if (confirm(`Are you sure you want to send an email to ${user.name}?`)) {
+      emailUser({ variables: { id: user.id } })
     }
   }
 
@@ -45,44 +73,20 @@ const User = ({ user }) => {
               <td>{user.id}</td>
             </tr>
             <tr>
-              <th>Name</th>
-              <td>{user.name}</td>
-            </tr>
-            <tr>
-              <th>Email</th>
-              <td>{user.email}</td>
-            </tr>
-            <tr>
-              <th>Login token</th>
-              <td>{user.loginToken}</td>
-            </tr>
-            <tr>
-              <th>Login token expires at</th>
-              <td>{timeTag(user.loginTokenExpiresAt)}</td>
-            </tr>
-            <tr>
-              <th>Hashed password</th>
-              <td>{user.hashedPassword}</td>
-            </tr>
-            <tr>
-              <th>Salt</th>
-              <td>{user.salt}</td>
-            </tr>
-            <tr>
-              <th>Reset token</th>
-              <td>{user.resetToken}</td>
-            </tr>
-            <tr>
-              <th>Reset token expires at</th>
-              <td>{timeTag(user.resetTokenExpiresAt)}</td>
-            </tr>
-            <tr>
               <th>Created at</th>
               <td>{timeTag(user.createdAt)}</td>
             </tr>
             <tr>
               <th>Updated at</th>
               <td>{timeTag(user.updatedAt)}</td>
+            </tr>
+            <tr>
+              <th>Email</th>
+              <td>{user.email}</td>
+            </tr>
+            <tr>
+              <th>Name</th>
+              <td>{user.name}</td>
             </tr>
           </tbody>
         </table>
@@ -100,6 +104,13 @@ const User = ({ user }) => {
           onClick={() => onDeleteClick(user.id)}
         >
           Delete
+        </button>
+        <button
+          type="button"
+          className="rw-button rw-button-blue"
+          onClick={() => onEmailClick(user)}
+        >
+          Send email
         </button>
       </nav>
     </>
