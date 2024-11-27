@@ -42,7 +42,6 @@ const SignupPage = () => {
   const onSubmit = async (data) => {
     const response = await signUp({
       username: data.email,
-      password: randomString(), // this is a random string and is not important
     })
 
     if (response.message) {

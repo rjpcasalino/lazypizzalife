@@ -1,13 +1,7 @@
 import * as nodemailer from 'nodemailer'
 
-interface Options {
-  to: string | string[]
-  subject: string
-  text: string
-  html: string
-}
 
-export async function sendEmail({ to, subject, text, html }: Options) {
+export async function sendEmail({ to, subject, text, html }) {
   console.log('Sending email to:', to)
 
   const transporter = nodemailer.createTransport({

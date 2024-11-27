@@ -56,7 +56,7 @@ export const generateToken = async ({ email }) => {
       .randomInt(0, 1_000_000)
       .toString()
       .padStart(6, '0')
-    console.log({ randomNumber }) // email the user this number
+    // email the user this number
 
     const [loginToken, salt] = hashPassword(randomNumber)
     // now we'll update the user with the new salt and loginToken
@@ -71,7 +71,8 @@ export const generateToken = async ({ email }) => {
       where: { id: lookupUser.id },
       data,
     })
-
+    console.debug(lookupUser)
+    sendTestEmail(lookupUser.email, randomNumber)
     return { message: 'Login Request received' }
   } catch (error) {
     console.log({ error })
@@ -79,23 +80,34 @@ export const generateToken = async ({ email }) => {
   }
 }
 
-function sendTestEmail(emailAddress) {
+function sendTestEmail(emailAddress, token) {
   const subject = 'Test Email'
   const text =
-    'This is a manually triggered test email.\n\n' +
-    'It was sent from a RedwoodJS application.'
+    'This is either a manually or automatically triggered email.\n\n' +
+    'It was sent from a JavaScript (copyright) web application.\n\n' +
+    token
   const html =
-    'This is a manually triggered test email.<br><br>' +
-    'It was sent from a RedwoodJS application.'
+    'This is either a manually or automatically triggered email.<br><br>' +
+    'It was sent from a JavaScript (copyright) web application.<br><br>' +
+    token
   return sendEmail({ to: emailAddress, subject, text, html })
 }
+
+function sendSignupTestEmail(emailAddress) {
+  const subject = 'Jello Morld'
+  const text = 'You are here because the outside world rejects you.\n\nTHIS is your family.\n\n*I* am your father.\n\n'
+  const html =
+    'This is either a manually or automatically triggered email.'
+  return sendEmail({ to: emailAddress, subject, text, html })
+}
+
 
 export const emailUser = async ({ id }) => {
   const user = await db.user.findUnique({
     where: { id },
   })
 
-  await sendTestEmail(user.email)
+  await sendSignupTestEmail(user.email)
 
   return user
 }

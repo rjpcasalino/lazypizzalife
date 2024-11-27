@@ -31,7 +31,6 @@ const LoginPage = () => {
   const onSubmit = async (data) => {
     const response = await logIn({
       username: data.username,
-      password: data.password,
     })
 
     if (response.message) {
