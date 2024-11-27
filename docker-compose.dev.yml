@@ -20,6 +20,8 @@ services:
       - CI=
       - NODE_ENV=development
       - REDWOOD_API_HOST=0.0.0.0
+      - AWS_SES_USER=${AWS_SES_USER}
+      - AWS_SES_PASS=${AWS_SES_PASS}
 
   db:
     image: postgres:16-bookworm
