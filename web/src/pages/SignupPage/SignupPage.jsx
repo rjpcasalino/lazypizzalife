@@ -42,6 +42,7 @@ const SignupPage = () => {
   const onSubmit = async (data) => {
     const response = await signUp({
       username: data.email,
+      password: randomString(),  // this doesn't matter
     })
 
     if (response.message) {
@@ -50,7 +51,8 @@ const SignupPage = () => {
       toast.error(response.error)
     } else {
       // user is signed in automatically
-      toast.success('Welcome!')
+      //toast.success('Welcome!')
+
     }
   }
 
