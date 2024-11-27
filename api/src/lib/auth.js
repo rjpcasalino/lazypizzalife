@@ -2,16 +2,14 @@ import { AuthenticationError, ForbiddenError } from '@redwoodjs/graphql-server'
 import { db } from './db'
 
 export const getCurrentUser = async (session) => {
+  if (!session || typeof session.id !== 'number') {
+    throw new Error('Invalid session')
+  }
+
   return await db.user.findUnique({
     where: { id: session.id },
-    select: { id: true, email: true },
+    select: { id: true, email: true, roles: true },
   })
-	
-  const roles = userRoles.map((role) => {
-    return role.name
-  })
-
-  return context.currentUser || { roles }
 }
 
 export const isAuthenticated = () => {

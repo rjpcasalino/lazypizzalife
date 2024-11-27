@@ -79,7 +79,7 @@ export const generateToken = async ({ email }) => {
   }
 }
 
-function sendTestEmail(emailAddress: string) {
+function sendTestEmail(emailAddress) {
   const subject = 'Test Email'
   const text =
     'This is a manually triggered test email.\n\n' +
@@ -90,7 +90,7 @@ function sendTestEmail(emailAddress: string) {
   return sendEmail({ to: emailAddress, subject, text, html })
 }
 
-export const emailUser = async ({ id }: Prisma.UserWhereUniqueInput) => {
+export const emailUser = async ({ id }) => {
   const user = await db.user.findUnique({
     where: { id },
   })
