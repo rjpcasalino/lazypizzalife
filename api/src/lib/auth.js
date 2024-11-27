@@ -6,6 +6,12 @@ export const getCurrentUser = async (session) => {
     where: { id: session.id },
     select: { id: true, email: true },
   })
+	
+  const roles = userRoles.map((role) => {
+    return role.name
+  })
+
+  return context.currentUser || { roles }
 }
 
 export const isAuthenticated = () => {

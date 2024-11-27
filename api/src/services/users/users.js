@@ -2,6 +2,9 @@ import { db } from 'src/lib/db'
 import crypto from 'node:crypto'
 import { hashPassword } from '@redwoodjs/auth-dbauth-api'
 import { sendEmail } from 'src/lib/email'
+import { requireAuth } from 'src/lib/auth'
+
+const DELETE_USER_ROLES = ['admin']
 
 export const users = () => {
   return db.user.findMany()
@@ -27,6 +30,7 @@ export const updateUser = ({ id, input }) => {
 }
 
 export const deleteUser = ({ id }) => {
+  requireAuth({ role: DELETE_USER_ROLES})
   return db.user.delete({
     where: { id },
   })
@@ -38,7 +42,6 @@ export const User = {
   },
 }
 
-// add this to the bottom of the file
 export const generateToken = async ({ email }) => {
   try {
     // look up if the user exists
