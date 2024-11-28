@@ -47,6 +47,23 @@ const UserForm = (props) => {
         <FieldError name="name" className="rw-field-error" />
 
         <Label
+          name="roles"
+          className="rw-label"
+          errorClassName="rw-label rw-label-error"
+        >
+          Roles
+        </Label>
+
+        <TextField
+          name="roles"
+          defaultValue={props.user?.roles}
+          className="rw-input"
+          errorClassName="rw-input rw-input-error"
+        />
+
+        <FieldError name="roles" className="rw-field-error" />
+
+        <Label
           name="email"
           className="rw-label"
           errorClassName="rw-label rw-label-error"

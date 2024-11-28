@@ -1,55 +1,109 @@
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
-    Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  font-family: 'Inter', sans-serif; /* A modern sans-serif font */
+  background-color: #f9f9f9; /* Set a light gray background color */
+  line-height: 1.6; /* Increase the line height for better readability */
 }
+
+h1, h2, h3 {
+  margin-bottom: 1rem; /* Add some space between headings and paragraphs */
+}
+
+a {
+  text-decoration: none;
+  color: #337ab7; /* A deep blue color for links */
+  transition: color 0.2s ease; /* Animate the link color on hover */
+}
+
+a:hover {
+  color: #23527c; /* A darker blue color on hover */
+}
+
+h1 > a {
+  position: relative;
+} /* Add positioning to ensure the link appears underneath the heading */
+
 ul {
   list-style-type: none;
-  margin: 1rem 0;
+  margin: 0 0 1rem 0; /* Remove margins from both sides and add space at the bottom */
   padding: 0;
 }
+
 li {
-  display: inline-block;
-  margin: 0 1rem 0 0;
+  display: block; /* Make each list item a block element for better layout */
+  margin-bottom: 0.5rem; /* Add some space between each list item */
 }
-h1 > a {
-  text-decoration: none;
-  color: black;
-}
+
 button,
-input,
-label,
-textarea {
+input[type="text"],
+input[type="email"], /* Only apply styles to input fields, not all inputs */
+label {
   display: block;
   outline: none;
 }
+
 label {
-  margin-top: 1rem;
+  font-weight: bold; /* Make the label text bolder and more readable */
+  color: #666; /* A darker gray color for labels */
+  margin-bottom: 0.5rem; /* Add some space between each label */
 }
+
+button[type="submit"] {
+  background-color: #337ab7;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+}
+
+button[type="submit"]:hover {
+  background-color: #23527c;
+}
+
+input[type="text"],
+input[type="email"] {
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+}
+textarea {
+  width: 100%;
+  height: 4rem;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+}
+
 .error {
-  color: red;
+  color: #f44336; /* A bright red color for error messages */
 }
+
 input.error,
 textarea.error {
-  border: 1px solid red;
+  border: 2px solid #f44336; /* Add a thick red border to highlight errors */
 }
+
 .form-error {
-  color: red;
-  background-color: lavenderblush;
+  background-color: #ffcccc;
   padding: 1rem;
   display: inline-block;
+  margin-bottom: 0.5rem;
 }
+
 .form-error ul {
   list-style-type: disc;
-  margin: 1rem;
-  padding: 1rem;
+  margin: 0 0 1rem 0;
+  padding: 0;
 }
-.form-error li {
-  display: list-item;
-}
+
 .flex-between {
   display: flex;
   justify-content: space-between;
+  align-items: center; /* Center the content horizontally */
 }
+
 .flex-between button {
-  display: inline;
+  margin: 0 0.5rem; /* Add some space between each button */
 }

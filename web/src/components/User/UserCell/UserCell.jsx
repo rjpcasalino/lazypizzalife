@@ -12,6 +12,7 @@ export const QUERY = gql`
       salt
       resetToken
       resetTokenExpiresAt
+      roles
       createdAt
       updatedAt
     }

@@ -7,6 +7,12 @@ import { useAuth } from './auth'
 const Routes = () => {
   return (
     <Router useAuth={useAuth}>
+    <Set wrap={ScaffoldLayout} title="Books" titleTo="books" buttonLabel="New Book" buttonTo="newBook">
+    <Route path="/books/new" page={BookNewBookPage} name="newBook" />
+    <Route path="/books/{id:Int}/edit" page={BookEditBookPage} name="editBook" />
+    <Route path="/books/{id:Int}" page={BookBookPage} name="book" />
+    <Route path="/books" page={BookBooksPage} name="books" />
+    </Set>
     <PrivateSet unauthenticated="forbidden" roles="admin">
      <Set wrap={ScaffoldLayout} title="Users" titleTo="users" buttonLabel="New User" buttonTo="newUser">
       <Route path="/users/new" page={UserNewUserPage} name="newUser" />

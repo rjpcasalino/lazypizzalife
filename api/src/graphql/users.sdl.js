@@ -10,6 +10,7 @@ export const schema = gql`
     salt: String
     resetToken: String
     resetTokenExpiresAt: DateTime
+    roles: String
     createdAt: DateTime!
     updatedAt: DateTime!
   }
@@ -28,6 +29,7 @@ export const schema = gql`
     salt: String
     resetToken: String
     resetTokenExpiresAt: DateTime
+    roles: String
   }
 
   input UpdateUserInput {
@@ -39,6 +41,7 @@ export const schema = gql`
     salt: String
     resetToken: String
     resetTokenExpiresAt: DateTime
+    roles: String
   }
 
   type userTokenResponse {

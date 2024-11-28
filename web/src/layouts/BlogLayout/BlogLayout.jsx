@@ -1,6 +1,8 @@
 import { Link, routes } from '@redwoodjs/router'
+import App from 'src/App'
 
 import { useAuth } from 'src/auth'
+
 
 const BlogLayout = ({ children }) => {
   const { isAuthenticated, currentUser, logOut } = useAuth()
@@ -10,7 +12,7 @@ const BlogLayout = ({ children }) => {
       <header>
         <div className="flex-between">
           <h1>
-            <Link to={routes.home()}>Redwood Blog</Link>
+            <Link to={routes.home()}>Lazy Pizza Life</Link>
           </h1>
           {isAuthenticated ? (
             <div>

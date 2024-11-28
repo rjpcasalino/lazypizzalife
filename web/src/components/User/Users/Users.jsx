@@ -42,6 +42,7 @@ const UsersList = ({ users }) => {
           <tr>
             <th>Id</th>
             <th>Name</th>
+            <th>Roles</th>
             <th>Email</th>
             <th>Login token</th>
             <th>Login token expires at</th>
@@ -59,6 +60,7 @@ const UsersList = ({ users }) => {
             <tr key={user.id}>
               <td>{truncate(user.id)}</td>
               <td>{truncate(user.name)}</td>
+              <td>{truncate(user.roles)}</td>
               <td>{truncate(user.email)}</td>
               <td>{truncate(user.loginToken)}</td>
               <td>{timeTag(user.loginTokenExpiresAt)}</td>
