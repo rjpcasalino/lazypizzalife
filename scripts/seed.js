@@ -4,7 +4,7 @@ import { hashPassword } from '@redwoodjs/auth-dbauth-api'
 export default async () => {
   const users = [
     { name: 'Arthur', email: 'ryan@rjpc.net', password: 'king' },
-    { name: 'Vera', email: 'vera@example.com', password: 'queen' },
+    { name: 'Vera', email: 'vera@rjpc.net', password: 'queen' },
   ]
 
   for (const user of users) {

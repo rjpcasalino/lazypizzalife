@@ -13,6 +13,8 @@ const authDecoder = createAuthDecoder(cookieName)
 
 export const handler = createGraphQLHandler({
   authDecoder,
+  allowGraphiQL: false,
+  defaultError: 'Sorry. We effed up. Check logs if you are an admin',
   getCurrentUser,
   loggerConfig: { logger, options: {} },
   directives,
