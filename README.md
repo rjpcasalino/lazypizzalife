@@ -1,5 +1,9 @@
 # README
 
+# Lazy Pizza Life supports moving everyone to IPv6. So when you dev be sure to hit [::1]
+
+Otherwise, on with the show!
+
 Welcome to [RedwoodJS](https://redwoodjs.com)!
 
 > **Prerequisites**
