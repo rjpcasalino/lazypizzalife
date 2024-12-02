@@ -3,9 +3,8 @@ import App from 'src/App'
 
 import { useAuth } from 'src/auth'
 
-
 const BlogLayout = ({ children }) => {
-  const { isAuthenticated, currentUser, logOut } = useAuth()
+  const { isAuthenticated, currentUser, userMetadata, logOut } = useAuth()
 
   return (
     <>
@@ -16,7 +15,8 @@ const BlogLayout = ({ children }) => {
           </h1>
           {isAuthenticated ? (
             <div>
-              <span>Logged in as {currentUser.email}</span>{' '}
+                <span>jello, {userMetadata.name}!</span>{' '}<br/>
+              <span>Logged in under {JSON.parse(localStorage.getItem('@@auth0spajs@@::'+currentUser.azp+'::@@user@@')).decodedToken.user.email }</span>{' '}
               <button type="button" onClick={logOut}>
                 Logout
               </button>

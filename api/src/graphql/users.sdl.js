@@ -54,5 +54,6 @@ export const schema = gql`
     deleteUser(id: Int!): User! @requireAuth
     generateToken(email: String!): userTokenResponse! @skipAuth
     emailUser(id: Int!): User! @requireAuth
+    emailTokenToUser(id: Int!): User! @skipAuth
   }
 `

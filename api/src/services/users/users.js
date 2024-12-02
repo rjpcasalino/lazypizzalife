@@ -1,7 +1,7 @@
 import { db } from 'src/lib/db'
 import crypto from 'node:crypto'
 import { hashPassword } from '@redwoodjs/auth-dbauth-api'
-import { sendEmail } from 'src/lib/email'
+import { sendEmail } from 'src/lib/email' // noted below
 import { requireAuth } from 'src/lib/auth'
 
 const DELETE_USER_ROLES = ['admin']
@@ -42,11 +42,50 @@ export const User = {
   },
 }
 
+export const generateSignupToken = async ({ email }) => {
+  try {
+    // do something fun here
+    // const fun
+
+    if (!fun) {
+      return { message: 'Login Request received' }
+    }
+
+    // here we're going to generate a random password of 6 numbers
+    const randomNumber = crypto
+      .randomInt(0, 1_000_000)
+      .toString()
+      .padStart(6, '0')
+    // email the user this number
+
+    const [loginToken, salt] = hashPassword(randomNumber)
+    // now we'll update the user with the new salt and loginToken
+    const loginTokenExpiresAt = new Date()
+    loginTokenExpiresAt.setMinutes(loginTokenExpiresAt.getMinutes() + 15)
+    const data = {
+      salt,
+      loginToken,
+      loginTokenExpiresAt,
+    }
+    await db.user.update({
+      where: { id: lookupUser.id },
+      data,
+    })
+    console.debug(lookupUser)
+    sendTestEmail(lookupUser.email, randomNumber)
+    return { message: 'Login Request received' }
+  } catch (error) {
+    console.log({ error })
+    throw new UserInputError(error.message)
+  }
+
+}
+
 export const generateToken = async ({ email }) => {
   try {
     // look up if the user exists
     const lookupUser = await db.user.findFirst({ where: { email } })
-
+    console.debug("lookupUser has run.")
     if (!lookupUser) {
       return { message: 'Login Request received' }
     }
@@ -90,6 +129,7 @@ function sendTestEmail(emailAddress, token) {
     'This is either a manually or automatically triggered email.<br><br>' +
     'It was sent from a JavaScript (copyright) web application.<br><br>' +
     token
+    // sendEmail is defined in api/src/lib/email.js
   return sendEmail({ to: emailAddress, subject, text, html })
 }
 
@@ -107,8 +147,13 @@ export const emailUser = async ({ id }) => {
     where: { id },
   })
 
-  await sendSignupTestEmail(user.email)
+  await sendTestEmail(user.email)
 
   return user
+}
+
+export const emailTokenToUser = async () => {
+  console.debug("!!!!Reminder that this costs $$$!!!!")
+  await sendTestEmail(user.email)
 }
 
