@@ -1,12 +1,14 @@
 import { Metadata } from '@redwoodjs/web'
+import { useAuth } from 'src/auth'
 
-import ArticlesCell from 'src/components/ArticlesCell'
 
 const HomePage = () => {
+  const { isAuthenticated, signUp } = useAuth()
   return (
     <>
       <Metadata title="Home" description="Home page" />
-      <ArticlesCell />
+      <p>{JSON.stringify({ isAuthenticated })}</p>
+      <button onClick={signUp}>sign up</button>
     </>
   )
 }

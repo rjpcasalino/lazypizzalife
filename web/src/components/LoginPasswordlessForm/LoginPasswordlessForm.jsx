@@ -9,6 +9,7 @@ import {
 import { navigate, routes, Link } from '@redwoodjs/router'
 import { Metadata, useMutation } from '@redwoodjs/web'
 import { Toaster, toast } from '@redwoodjs/web/toast'
+// this is defined in api services users.js
 const GENERATE_LOGIN_TOKEN = gql`
   mutation generateLoginToken($email: String!) {
     generateToken(email: $email) {
@@ -84,7 +85,7 @@ const LoginPasswordlessForm = ({ setWaitingForCode, setEmail }) => {
           <div className="rw-login-link">
             <span>Don&apos;t have an account?</span>{' '}
             <Link to={routes.signup()} className="rw-link">
-              Sign up!
+              Sign up Now!
             </Link>
           </div>
         </div>
